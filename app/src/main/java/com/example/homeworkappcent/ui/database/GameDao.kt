@@ -18,7 +18,7 @@ abstract class GameDao {
     abstract fun getGameItemById(id: String): GameItem?
 
     @Query("SELECT * FROM GAME")
-    abstract fun getGameItemList(): MutableList<GameItem>
+    abstract fun getGameItemList(): MutableList<GameItem>?
 
     fun addGameItem(gameItem: GameItem) = insert(gameItem)
 

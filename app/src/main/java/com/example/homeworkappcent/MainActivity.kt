@@ -20,19 +20,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-        val appBarConfiguration = AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_dashboard))
+        val appBarConfiguration =
+            AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_dashboard))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        loadDatabase()
     }
 
-    private fun loadDatabase() {
+    private fun loadDatabase(onDataLoaded: () -> Unit) {
         val gameDao = AppRoomDatabase.getDatabase(this).gameDao()
         val client = OkHttpClient()
 
@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                             val rating = jsonGameObject.getDouble("rating").toString()
                             val metacritic = jsonGameObject.getInt("metacritic").toString()
                             val image = jsonGameObject.getString("background_image")
-                            val release_date = jsonGameObject.getString("released")
+                            val released = jsonGameObject.getString("released")
                             val description = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                                 Html.fromHtml(
                                     jsonGameDetailsObject.getString("description"),
@@ -104,12 +104,14 @@ class MainActivity : AppCompatActivity() {
                                     metacritic,
                                     false,
                                     image,
-                                    release_date,
+                                    released,
                                     description
                                 )
                             )
                         }
                     }
+
+                    runOnUiThread { onDataLoaded.invoke() }
                 }
             } catch (exception: Exception) {
                 exception.printStackTrace()

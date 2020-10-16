@@ -11,23 +11,20 @@ abstract class AppRoomDatabase : RoomDatabase() {
     abstract fun gameDao(): GameDao
 
     companion object {
-        @Volatile
-        private var INSTANCE: AppRoomDatabase? = null
+        private var appRoomDatabase: AppRoomDatabase? = null
 
+        @Synchronized
         fun getDatabase(context: Context): AppRoomDatabase {
-            val tempInstance = INSTANCE
-            if (tempInstance != null) {
-                return tempInstance
-            }
-            synchronized(this) {
-                val instance = Room.databaseBuilder(
+            if (appRoomDatabase == null) {
+                appRoomDatabase = Room.databaseBuilder(
                     context.applicationContext,
                     AppRoomDatabase::class.java,
                     "AppcentDatabase"
-                ).build()
-                INSTANCE = instance
-                return instance
+                )
+                    .build()
             }
+
+            return appRoomDatabase!!
         }
     }
 }
