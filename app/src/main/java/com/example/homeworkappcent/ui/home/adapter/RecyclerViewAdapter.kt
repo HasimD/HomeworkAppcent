@@ -11,10 +11,10 @@ import com.example.homeworkappcent.R
 import com.example.homeworkappcent.ui.database.GameItem
 import com.example.homeworkappcent.ui.home.HomeViewModel
 
-class ViewPagerAdapter(
+class RecyclerViewAdapter(
     private val viewModel: HomeViewModel,
     private val activity: AppCompatActivity
-) : RecyclerView.Adapter<ViewPagerViewHolder>() {
+) : RecyclerView.Adapter<RecyclerViewViewHolder>() {
 
     private val inflater: LayoutInflater =
         activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -22,17 +22,22 @@ class ViewPagerAdapter(
     private val gameItemList: List<GameItem>
         get() {
             viewModel.gameItemList.value?.apply {
-                if (this.size > 3) return this.subList(0, 3)
+                if (this.size > 3) return this.subList(3, this.size)
             }
             return emptyList()
         }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewPagerViewHolder(inflater.inflate(R.layout.fragment_home_viewpager_item, parent, false))
+        RecyclerViewViewHolder(inflater.inflate(R.layout.fragment_home_row, parent, false))
 
-    override fun onBindViewHolder(holder: ViewPagerViewHolder, position: Int) {
-        holder.imageView.apply { loadImageByGlide(gameItemList[position].image, this) }
+    override fun onBindViewHolder(holder: RecyclerViewViewHolder, position: Int) {
+        val gameItem = gameItemList[position]
+
+        holder.gameImage.apply { loadImageByGlide(gameItem.image, this) }
+        holder.name.text = gameItem.name
+        holder.rating.text = gameItem.rating
+        holder.released.text = gameItem.releaseDate
     }
 
     override fun getItemCount() = gameItemList.size

@@ -2,12 +2,11 @@ package com.example.homeworkappcent.ui.utils
 
 import android.view.View
 import android.widget.LinearLayout
-import androidx.fragment.app.FragmentContainerView
 
 object AnimationUtils {
 
-    fun showUI(fragmentContainerView: FragmentContainerView, progress: LinearLayout) {
-        fragmentContainerView.animateShown()
+    fun showUI(gameListLayout: LinearLayout, progress: LinearLayout) {
+        gameListLayout.animateShown()
         progress.animateHidden()
     }
 

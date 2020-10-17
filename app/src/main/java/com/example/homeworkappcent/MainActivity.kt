@@ -32,7 +32,12 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-    private fun loadDatabase(onDataLoaded: () -> Unit) {
+    override fun onResume() {
+        super.onResume()
+        loadDatabase()
+    }
+
+    private fun loadDatabase() {
         val gameDao = AppRoomDatabase.getDatabase(this).gameDao()
         val client = OkHttpClient()
 
@@ -110,8 +115,6 @@ class MainActivity : AppCompatActivity() {
                             )
                         }
                     }
-
-                    runOnUiThread { onDataLoaded.invoke() }
                 }
             } catch (exception: Exception) {
                 exception.printStackTrace()
