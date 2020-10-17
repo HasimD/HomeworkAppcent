@@ -21,13 +21,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.main)
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         val appBarConfiguration =
-            AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_dashboard))
+            AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_favorite))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }

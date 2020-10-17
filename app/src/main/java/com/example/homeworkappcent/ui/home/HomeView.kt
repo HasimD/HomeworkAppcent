@@ -18,7 +18,7 @@ import com.example.homeworkappcent.R
 import com.example.homeworkappcent.ui.home.adapter.RecyclerViewAdapter
 import com.example.homeworkappcent.ui.home.adapter.ViewPagerAdapter
 import com.example.homeworkappcent.ui.utils.AnimationUtils
-import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.home.*
 
 class HomeView : Fragment() {
 
@@ -36,7 +36,7 @@ class HomeView : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        return inflater.inflate(R.layout.home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

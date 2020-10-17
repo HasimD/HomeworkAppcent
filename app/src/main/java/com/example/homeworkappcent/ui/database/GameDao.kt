@@ -1,15 +1,15 @@
 package com.example.homeworkappcent.ui.database
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 abstract class GameDao {
 
     @Insert
     abstract fun insert(gameItem: GameItem)
+
+    @Update
+    abstract fun update(gameItem: GameItem)
 
     @Delete
     abstract fun delete(gameItem: GameItem)
@@ -21,6 +21,8 @@ abstract class GameDao {
     abstract fun getGameItemList(): MutableList<GameItem>?
 
     fun addGameItem(gameItem: GameItem) = insert(gameItem)
+
+    fun updateGameItem(gameItem: GameItem) = update(gameItem)
 
     fun removeGameItem(gameItem: GameItem) = delete(gameItem)
 }

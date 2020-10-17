@@ -1,6 +1,7 @@
 package com.example.homeworkappcent.ui.home.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -9,7 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.homeworkappcent.R
 import com.example.homeworkappcent.ui.database.GameItem
+import com.example.homeworkappcent.ui.game.GameView
 import com.example.homeworkappcent.ui.home.HomeViewModel
+import com.example.homeworkappcent.ui.utils.Cache
 
 class ViewPagerAdapter(
     private val viewModel: HomeViewModel,
@@ -29,10 +32,20 @@ class ViewPagerAdapter(
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewPagerViewHolder(inflater.inflate(R.layout.fragment_home_viewpager_item, parent, false))
+        ViewPagerViewHolder(inflater.inflate(R.layout.home_viewpager_item, parent, false))
 
     override fun onBindViewHolder(holder: ViewPagerViewHolder, position: Int) {
-        holder.imageView.apply { loadImageByGlide(gameItemList[position].image, this) }
+        val gameItem = gameItemList[position]
+
+        holder.imageView.apply {
+            loadImageByGlide(gameItem.image, this)
+
+            this.setOnClickListener {
+                Cache.currentGameItem = gameItem
+                val intent = Intent(activity, GameView::class.java)
+                activity.startActivity(intent)
+            }
+        }
     }
 
     override fun getItemCount() = gameItemList.size
