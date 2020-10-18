@@ -4,28 +4,43 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.homeworkappcent.R
+import com.example.homeworkappcent.ui.favorite.adapter.FavoriteAdapter
+import com.example.homeworkappcent.ui.utils.animateHidden
+import com.example.homeworkappcent.ui.utils.animateShown
+import kotlinx.android.synthetic.main.favorite.*
 
 class FavoriteView : Fragment() {
 
-    private lateinit var favoriteViewModel: FavoriteViewModel
+    private val viewModel by lazy { FavoriteViewModel(FavoriteModel(activity as AppCompatActivity)) }
+    private val adapter by lazy { FavoriteAdapter(viewModel, activity as AppCompatActivity) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        favoriteViewModel =
-            ViewModelProviders.of(this).get(FavoriteViewModel::class.java)
-        val root = inflater.inflate(R.layout.favorite, container, false)
-        val textView: TextView = root.findViewById(R.id.text_dashboard)
-        favoriteViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
+        return inflater.inflate(R.layout.favorite, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewModel.gameItemList.observe(viewLifecycleOwner, {
+            linearLayout_gameList.animateShown()
+            linearLayout_progress.animateHidden()
+            adapter.notifyDataSetChanged()
         })
-        return root
+
+        recyclerView.apply {
+            this.layoutManager = LinearLayoutManager(activity)
+            this.adapter = this@FavoriteView.adapter
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadData()
     }
 }

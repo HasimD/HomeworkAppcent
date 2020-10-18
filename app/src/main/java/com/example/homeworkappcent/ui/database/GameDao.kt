@@ -20,9 +20,10 @@ abstract class GameDao {
     @Query("SELECT * FROM GAME")
     abstract fun getGameItemList(): MutableList<GameItem>?
 
+    @Query("SELECT * FROM GAME WHERE FAVORITE = 1")
+    abstract fun getFavoriteGameItemList(): MutableList<GameItem>?
+
     fun addGameItem(gameItem: GameItem) = insert(gameItem)
 
     fun updateGameItem(gameItem: GameItem) = update(gameItem)
-
-    fun removeGameItem(gameItem: GameItem) = delete(gameItem)
 }

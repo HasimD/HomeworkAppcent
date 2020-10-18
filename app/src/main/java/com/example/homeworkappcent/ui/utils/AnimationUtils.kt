@@ -1,20 +1,6 @@
 package com.example.homeworkappcent.ui.utils
 
 import android.view.View
-import android.widget.LinearLayout
-
-object AnimationUtils {
-
-    fun showUI(gameListLayout: LinearLayout, progress: LinearLayout) {
-        gameListLayout.animateShown()
-        progress.animateHidden()
-    }
-
-    fun hideUI(gameListLayout: LinearLayout, progress: LinearLayout) {
-        gameListLayout.animateHidden()
-        progress.animateShown()
-    }
-}
 
 private const val DURATION = 250L
 

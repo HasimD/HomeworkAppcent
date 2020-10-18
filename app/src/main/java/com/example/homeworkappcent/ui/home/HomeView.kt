@@ -17,7 +17,8 @@ import androidx.viewpager2.widget.ViewPager2
 import com.example.homeworkappcent.R
 import com.example.homeworkappcent.ui.home.adapter.RecyclerViewAdapter
 import com.example.homeworkappcent.ui.home.adapter.ViewPagerAdapter
-import com.example.homeworkappcent.ui.utils.AnimationUtils
+import com.example.homeworkappcent.ui.utils.animateHidden
+import com.example.homeworkappcent.ui.utils.animateShown
 import kotlinx.android.synthetic.main.home.*
 
 class HomeView : Fragment() {
@@ -42,7 +43,8 @@ class HomeView : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewPager.adapter = this@HomeView.adapter
         viewModel.gameItemList.observe(viewLifecycleOwner, {
-            AnimationUtils.showUI(linearLayout_gameList, linearLayout_progress)
+            linearLayout_gameList.animateShown()
+            linearLayout_progress.animateHidden()
             setUpIndicators()
             setCurrentIndicator(0)
             viewPager.setCurrentItem(0, true)

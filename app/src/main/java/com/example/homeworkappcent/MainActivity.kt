@@ -10,11 +10,15 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.homeworkappcent.ui.database.AppRoomDatabase
 import com.example.homeworkappcent.ui.database.GameItem
+import com.example.homeworkappcent.ui.utils.animateHidden
+import com.example.homeworkappcent.ui.utils.animateShown
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.main.*
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
 import java.io.IOException
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +34,14 @@ class MainActivity : AppCompatActivity() {
             AppBarConfiguration(setOf(R.id.navigation_home, R.id.navigation_favorite))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        //If the database is not loaded, we are not removing the "Loading data" layout.
+        val sharedPreferences = getSharedPreferences(SETTINGS, 0)
+        if (!sharedPreferences.getBoolean(FIRST_TIME, true)) {
+            linearLayout_progress.animateHidden()
+            nav_host_fragment.animateShown()
+        }
+
     }
 
     override fun onResume() {
@@ -115,10 +127,27 @@ class MainActivity : AppCompatActivity() {
                             )
                         }
                     }
+                    val sharedPreferences = getSharedPreferences(SETTINGS, 0)
+                    if (sharedPreferences.getBoolean(FIRST_TIME, true)) {
+                        // data is loaded, now we can change the UI.
+                        runOnUiThread {
+                            with(sharedPreferences.edit()) {
+                                putBoolean(FIRST_TIME, false)
+                                apply()
+                            }
+
+                            recreate()
+                        }
+                    }
                 }
             } catch (exception: Exception) {
                 exception.printStackTrace()
             }
         }.start()
+    }
+
+    companion object {
+        private const val FIRST_TIME = "firstTime"
+        private const val SETTINGS = "settings"
     }
 }
