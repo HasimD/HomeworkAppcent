@@ -19,20 +19,45 @@ import com.example.homeworkappcent.ui.home.adapter.RecyclerViewAdapter
 import com.example.homeworkappcent.ui.home.adapter.ViewPagerAdapter
 import com.example.homeworkappcent.ui.utils.animateHidden
 import com.example.homeworkappcent.ui.utils.animateShown
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.home.*
 
 class HomeView : Fragment() {
 
     private val viewModel by lazy { HomeViewModel(HomeModel(activity as AppCompatActivity)) }
-    private val viewPagerAdapter by lazy { ViewPagerAdapter(viewModel, activity as AppCompatActivity) }
-    private val recyclerviewAdapter by lazy { RecyclerViewAdapter(viewModel, activity as AppCompatActivity) }
+    private val viewPagerAdapter by lazy {
+        ViewPagerAdapter(
+            viewModel,
+            activity as AppCompatActivity
+        )
+    }
+    private val recyclerviewAdapter by lazy {
+        RecyclerViewAdapter(
+            viewModel,
+            activity as AppCompatActivity
+        )
+    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         setHasOptionsMenu(true)
         return inflater.inflate(R.layout.home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        firebaseAnalytics = Firebase.analytics
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+            param(FirebaseAnalytics.Param.SCREEN_NAME, "Home")
+        }
+
         viewPager.apply {
             this.adapter = this@HomeView.viewPagerAdapter
             this.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -49,7 +74,7 @@ class HomeView : Fragment() {
         }
 
         viewModel.gameItemList.observe(viewLifecycleOwner, {
-            if(viewModel.filteredGameItemList.value?.size == 0){
+            if (viewModel.filteredGameItemList.value?.size == 0) {
                 text_notFound.visibility = View.VISIBLE
             } else {
                 text_notFound.visibility = View.GONE
