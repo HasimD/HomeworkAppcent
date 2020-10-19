@@ -3,4 +3,7 @@
     <string name="title_home">Home</string>
     <string name="title_favorite">Favorite</string>
     <string name="loading_data">Loading data...</string>
+    <string name="nothing">-</string>
+    <string name="game_you_are_looking_for_was_not_found">Sorry, the game you are looking for was not found!</string>
+    <string name="you_have_no_favorite_games">You have no favorite games!</string>
 </resources>

@@ -23,6 +23,9 @@ abstract class GameDao {
     @Query("SELECT * FROM GAME WHERE FAVORITE = 1")
     abstract fun getFavoriteGameItemList(): MutableList<GameItem>?
 
+    @Query("SELECT * FROM GAME WHERE NAME LIKE '%' || :searchString || '%' ")
+    abstract fun getGameItemList(searchString: String): MutableList<GameItem>?
+
     fun addGameItem(gameItem: GameItem) = insert(gameItem)
 
     fun updateGameItem(gameItem: GameItem) = update(gameItem)

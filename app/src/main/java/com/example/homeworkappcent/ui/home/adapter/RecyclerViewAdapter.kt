@@ -19,17 +19,24 @@ class RecyclerViewAdapter(
     private val activity: AppCompatActivity
 ) : RecyclerView.Adapter<RecyclerViewViewHolder>() {
 
-    private val inflater: LayoutInflater =
-        activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val inflater: LayoutInflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     private val gameItemList: List<GameItem>
         get() {
             viewModel.gameItemList.value?.apply {
-                if (this.size > 3) return this.subList(3, this.size)
+                // if lists are not empty, and filteredGameItemList's size is not equal to gameItemList's size, then it means the search is in progress.
+                if (this.isNotEmpty() && this.size != filteredGameItemList.size) {
+                    return filteredGameItemList
+                } // or maybe both of the lists are equal in size, then we can do our normal process. Which means, take the next sublist from index 3.
+                else if (this.size > 3) {
+                    return this.subList(3, this.size)
+                }
             }
             return emptyList()
         }
 
+    private val filteredGameItemList: List<GameItem>
+        get() = viewModel.filteredGameItemList.value ?: emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         RecyclerViewViewHolder(inflater.inflate(R.layout.home_row, parent, false))
