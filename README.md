@@ -2,7 +2,7 @@
 
 This project is created for my job application.
 
-| ![](extras/Images/Home.png) | ![](extras/Images/Favorite.png) | ![](extras/Images/Game.png) |
+| ![](extras/Images/Home.jpg) | ![](extras/Images/Favorite.jpg) | ![](extras/Images/Game.jpg) |
 |:-------------------------|:-------------------------|:-------------------------|
 
 ## What we have in the app?
