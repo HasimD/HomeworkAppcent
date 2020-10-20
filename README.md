@@ -11,6 +11,8 @@ This project is created for my job application.
 
 - Firebase integrations: Firebase Analytics, Crashlytics, Performance.
 
-- Room as local database.
+- Room as a local database.
 
-- Okhttp as Rest Api Client.
+- Okhttp as a Rest Api Client.
+
+- JUnit for Room Db Testing.
