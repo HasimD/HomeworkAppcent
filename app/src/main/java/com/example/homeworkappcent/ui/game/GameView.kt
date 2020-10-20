@@ -1,11 +1,10 @@
 package com.example.homeworkappcent.ui.game
 
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
 import com.example.homeworkappcent.R
 import com.example.homeworkappcent.ui.utils.Cache
+import com.example.homeworkappcent.ui.utils.CommonUtils.loadImageByGlide
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.analytics.ktx.logEvent
@@ -35,7 +34,7 @@ class GameView : AppCompatActivity() {
 
         val gameItem = Cache.currentGameItem!!
 
-        loadImageByGlide(gameItem.image, imageView_game)
+        loadImageByGlide(gameItem.image, imageView_game, this)
         textView_name.text = gameItem.name
         textView_metacritic.text = gameItem.metacritic
         textView_released.text = gameItem.releaseDate
@@ -57,12 +56,5 @@ class GameView : AppCompatActivity() {
                 viewModel.updateFavorite(gameItem)
             }
         }
-    }
-
-    private fun loadImageByGlide(url: String, imageView: ImageView) {
-        Glide.with(this)
-            .load(url)
-            .centerCrop()
-            .into(imageView)
     }
 }

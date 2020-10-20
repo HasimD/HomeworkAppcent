@@ -25,7 +25,7 @@ class HomeViewModel(private val model: HomeModel) : ViewModel() {
     }
 
     fun searchByName(searchString: String) = viewModelScope.launch {
-        mutableFilteredGameItemList.value = model.getGameItemList(searchString)
+        mutableFilteredGameItemList.value = model.getGameItemListByNameSearch(searchString)
         mutableGameItemList.value = model.getGameItemList()
     }
 }

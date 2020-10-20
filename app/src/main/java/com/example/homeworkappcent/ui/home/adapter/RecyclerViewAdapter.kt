@@ -4,22 +4,22 @@ import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.homeworkappcent.R
 import com.example.homeworkappcent.ui.database.GameItem
 import com.example.homeworkappcent.ui.game.GameView
 import com.example.homeworkappcent.ui.home.HomeViewModel
 import com.example.homeworkappcent.ui.utils.Cache
+import com.example.homeworkappcent.ui.utils.CommonUtils.loadImageByGlide
 
 class RecyclerViewAdapter(
     private val viewModel: HomeViewModel,
     private val activity: AppCompatActivity
 ) : RecyclerView.Adapter<RecyclerViewViewHolder>() {
 
-    private val inflater: LayoutInflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val inflater: LayoutInflater =
+        activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     private val gameItemList: List<GameItem>
         get() {
@@ -50,18 +50,11 @@ class RecyclerViewAdapter(
             activity.startActivity(intent)
         }
 
-        holder.gameImage.apply { loadImageByGlide(gameItem.image, this) }
+        holder.gameImage.apply { loadImageByGlide(gameItem.image, this, activity) }
         holder.name.text = gameItem.name
         holder.rating.text = gameItem.rating
         holder.released.text = gameItem.releaseDate
     }
 
     override fun getItemCount() = gameItemList.size
-
-    private fun loadImageByGlide(url: String, imageView: ImageView) {
-        Glide.with(activity)
-            .load(url)
-            .centerCrop()
-            .into(imageView)
-    }
 }

@@ -15,7 +15,7 @@ class HomeModel(
         AppRoomDatabase.getDatabase(activity).gameDao().getGameItemList()
     }
 
-    suspend fun getGameItemList(searchString: String) = withContext(coroutineContext) {
-        AppRoomDatabase.getDatabase(activity).gameDao().getGameItemList(searchString)
+    suspend fun getGameItemListByNameSearch(searchString: String) = withContext(coroutineContext) {
+        AppRoomDatabase.getDatabase(activity).gameDao().getGameItemListByNameSearch(searchString)
     }
 }
